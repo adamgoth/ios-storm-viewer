@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class DetailViewController: UIViewController {
 
@@ -18,6 +19,8 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         title = selectedImage
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
 
         if let imageToLoad = selectedImage {
             imageView.image = UIImage(named: imageToLoad)
@@ -35,14 +38,16 @@ class DetailViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func shareTapped() {
+        //let vc = UIActivityViewController(activityItems: [imageView.image!], applicationActivities: [])
+        //vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        //present(vc, animated: true)
+        if let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
+            vc.setInitialText("Look at this great picture!")
+            vc.add(imageView.image!)
+            vc.add(URL(string: "http://www.photolib.noaa.gov/nssl"))
+            present(vc, animated: true)
+        }
     }
-    */
 
 }
